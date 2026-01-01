@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+            padding-top: 80px; /* space because navbar is fixed */
+        }
+
+        /* Transparent Glass Navbar */
+        .transparent-nav {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-link, .navbar-brand {
+            font-weight: 600;
+            color: #000 !important;
+        }
+
+        /* Card Styling */
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .btn-back {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top transparent-nav">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">MySite</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'receipes' %}">Recipes</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="container mt-4">
+    <a href="{% url 'receipes' %}" class="btn btn-secondary btn-back">← Back to Recipes</a>
+
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-header">
+            Update Profile
+        </div>
+
+        <div class="card-body">
+
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Profile Form -->
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ u_form.username.label_tag }}
+                    {{ u_form.username }}
+                    {{ u_form.username.errors }}
+                </div>
+
+                <div class="mb-3">
+                    {{ u_form.first_name.label_tag }}
+                    {{ u_form.first_name }}
+                    {{ u_form.first_name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    {{ u_form.last_name.label_tag }}
+                    {{ u_form.last_name }}
+                    {{ u_form.last_name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    {{ u_form.email.label_tag }}
+                    {{ u_form.email }}
+                    {{ u_form.email.errors }}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Update Profile</button>
+            </form>
+
+            <hr>
+
+            <a href="{% url 'profile_delete' %}" class="btn btn-danger w-100"
+               onclick="return confirm('Are you sure you want to delete your account?');">
+                Delete My Account
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Auto hide alerts -->
+<script>
+    setTimeout(function () {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            let bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 3000);
+</script>
+
+</body>
+</html>
