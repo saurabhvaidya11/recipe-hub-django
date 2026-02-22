@@ -1,32 +1,16 @@
-"""
-Django settings for main project.
-"""
-
-from pathlib import Path
 import os
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# ===============================
-# SECURITY SETTINGS (PRODUCTION READY)
-# ===============================
-
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
-DEBUG = os.environ.get("DEBUG", "False") == "True"
-
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".onrender.com",   # allows your render domain
-]
+# SECURITY
+SECRET_KEY = 'your-secret-key'
+DEBUG = False   # IMPORTANT for Render
+ALLOWED_HOSTS = ['recipe-hub-d8l5.onrender.com', 'localhost', '127.0.0.1']
 
 
-# ===============================
 # APPLICATIONS
-# ===============================
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,17 +18,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vege',
+
+    'vege',  # your app
 ]
 
 
-# ===============================
 # MIDDLEWARE
-# ===============================
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,15 +38,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'main.urls'
 
-
-# ===============================
-# TEMPLATES
-# ===============================
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,26 +54,20 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'main.wsgi.application'
 
 
-# ===============================
-# DATABASE (SQLite for free plan)
-# ===============================
+# DATABASE (Render PostgreSQL)
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        os.environ.get('DATABASE_URL')
+    )
 }
 
 
-# ===============================
 # PASSWORD VALIDATION
-# ===============================
-
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -105,48 +76,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# ===============================
-# INTERNATIONALIZATION
-# ===============================
-
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
 
 
-# ===============================
-# STATIC FILES (IMPORTANT FOR RENDER)
-# ===============================
-
+# STATIC FILES
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'vege/static'),
-]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# ===============================
-# MEDIA FILES
-# ===============================
-
+# MEDIA FILES (FOR IMAGES)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# ===============================
-# DEFAULT PRIMARY KEY
-# ===============================
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# ===============================
-# LOGIN
-# ===============================
-
-LOGIN_URL = 'login_page'
