@@ -150,3 +150,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ===============================
 
 LOGIN_URL = 'login_page'
+
+import os
+import cloudinary
+
+INSTALLED_APPS += [
+    'cloudinary',
+    'cloudinary_storage',
+]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+cloudinary.config(
+    cloud_name=os.environ.get("dqtafo80v"),
+    api_key=os.environ.get("596928792758633"),
+    api_secret=os.environ.get(":ACIqaydf06UV2H3YBM21VUe-sAo"),
+)
