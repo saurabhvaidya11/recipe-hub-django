@@ -1,7 +1,5 @@
 from django.contrib import admin
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from vege import views
 from vege.views import (
@@ -12,9 +10,9 @@ from vege.views import (
 urlpatterns = [
     path('', receipes, name="home"),
     path('receipes/', receipes, name="receipes"),
-    path('delete-receipe/<id>/', delete_receipe, name="delete_receipe"),
-    path('update-receipe/<id>/', update_receipe, name="update_receipe"),
-    
+
+    path('delete-receipe/<int:id>/', delete_receipe, name="delete_receipe"),
+    path('update-receipe/<int:id>/', update_receipe, name="update_receipe"),
 
     path('admin/', admin.site.urls),
 
@@ -58,7 +56,3 @@ urlpatterns = [
     path('profile/delete/', views.profile_delete, name="profile_delete"),
     path('profile/<str:username>/', views.user_profile, name='user_profile'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

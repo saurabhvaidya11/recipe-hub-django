@@ -1,31 +1,14 @@
-"""
-Django settings for main project.
-"""
-
 from pathlib import Path
 import os
+import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# ===============================
-# SECURITY SETTINGS (PRODUCTION READY)
-# ===============================
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".onrender.com",   # allows your render domain
-]
-
-
-# ===============================
-# APPLICATIONS
-# ===============================
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -36,13 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vege',
     'cloudinary',
-    'cloudinary_storage'
+    'cloudinary_storage',
 ]
-
-
-# ===============================
-# MIDDLEWARE
-# ===============================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,13 +33,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'main.urls'
-
-
-# ===============================
-# TEMPLATES
-# ===============================
 
 TEMPLATES = [
     {
@@ -79,13 +51,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'main.wsgi.application'
-
-
-# ===============================
-# DATABASE (SQLite for free plan)
-# ===============================
 
 DATABASES = {
     'default': {
@@ -94,11 +60,6 @@ DATABASES = {
     }
 }
 
-
-# ===============================
-# PASSWORD VALIDATION
-# ===============================
-
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -106,65 +67,25 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# ===============================
-# INTERNATIONALIZATION
-# ===============================
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-# ===============================
-# STATIC FILES (IMPORTANT FOR RENDER)
-# ===============================
-
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'vege/static'),
-]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-# ===============================
-# MEDIA FILES
-# ===============================
-
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-# ===============================
-# DEFAULT PRIMARY KEY
-# ===============================
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# ===============================
-# LOGIN
-# ===============================
 
 LOGIN_URL = 'login_page'
 
-import os
-import cloudinary
-
-INSTALLED_APPS += [
-    'cloudinary',
-    'cloudinary_storage',
-]
-
+# Cloudinary
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 cloudinary.config(
-    cloud_name=os.environ.get("dqtafo80v"),
-    api_key=os.environ.get("596928792758633"),
-    api_secret=os.environ.get(":ACIqaydf06UV2H3YBM21VUe-sAo"),
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
 )
